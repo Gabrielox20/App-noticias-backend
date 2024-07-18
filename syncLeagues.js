@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cron = require('node-cron');
 
-const BASE_URL = 'http://localhost:5000/sync/sync-historical';
+const BASE_URL = 'https://app-noticias-backend.onrender.com/sync/sync-historical';
 
 const leagues = [
   //{ code: 'WC', id: '2013' },
@@ -38,7 +38,7 @@ const syncData = async () => {
 };
 
 // Schedule the task to run every hour
-cron.schedule('0 */6 * * *', () => {
+cron.schedule('0 */1 * * *', () => {
   console.log('Running syncLeagues job...');
   syncData();
 });

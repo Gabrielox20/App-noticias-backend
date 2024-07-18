@@ -52,7 +52,7 @@ def resolve_google_news_url(google_news_url):
 
 def get_football_news(league):
     try:
-        url = f"https://news.google.com/search?q=%22{league}%22%20when%3A1d&hl=es-419&gl=CL&ceid=CL%3Aes-419"
+        url = f"https://news.google.com/search?q=%22{league}%22%20when%3A1h&hl=es-419&gl=CL&ceid=CL%3Aes-419"
         response = requests.get(url)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')

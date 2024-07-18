@@ -1,3 +1,4 @@
+// index.js
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -37,6 +38,10 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(err => {
     console.error('Error connecting to MongoDB:', err.message);
   });
+
+// Integrar syncLeagues.js y syncNews.js
+require('./syncLeagues');
+require('./syncNews');
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

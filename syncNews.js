@@ -15,7 +15,7 @@ const leagues = [
 const syncNews = async () => {
   try {
     for (const league of leagues) {
-      const response = await axios.get(`http://localhost:5000/news/scrape-and-save`, {
+      const response = await axios.get(`https://app-noticias-backend.onrender.com/news/scrape-and-save`, {
         params: { league: league.name }
       });
       console.log(`News for ${league.name} scraped and saved:`, response.data.message);
@@ -26,7 +26,7 @@ const syncNews = async () => {
 };
 
 // Schedule the task to run every hour
-cron.schedule('0 */6 * * *', () => {
+cron.schedule('0 */1 * * *', () => {
     console.log('Running syncNews job...');
   syncNews();
 });

@@ -16,7 +16,7 @@ const leagues = [
   //{ code: 'SA', id: '2010' },
   //{ code: 'PL', id: '2011' },
   //{ code: 'CLI', id: '2012' },
-  { code: 'BSA', id: '2004' },
+  //{ code: 'BSA', id: '2004' },
 ];
 
 const seasons = [2024];

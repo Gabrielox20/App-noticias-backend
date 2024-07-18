@@ -58,22 +58,16 @@ try {
   console.error('Error instalando dependencias de Python:', error.message);
 }
 
-// Ejecutar los scripts syncLeagues y syncNews inmediatamente
-const syncLeagues = require('./syncLeagues');
-const syncNews = require('./syncNews');
-
-syncLeagues();
-syncNews();
 
 // Programar las tareas para que se ejecuten cada hora
 cron.schedule('0 */1 * * *', () => {
   console.log('Running syncLeagues job...');
-  syncLeagues();
+  require('./syncLeagues');
 });
 
 cron.schedule('0 */1 * * *', () => {
   console.log('Running syncNews job...');
-  syncNews();
+  require('./syncNews');
 });
 
 // Cronjob que imprime un mensaje cada 10 minutos

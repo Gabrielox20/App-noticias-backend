@@ -68,11 +68,14 @@ console.log("...")
 cron.schedule('0 */1 * * *', () => {
   console.log('Running syncLeagues job...');
   syncLeagues();
+  console.log("Ligas sincronizadas")
 });
 
 cron.schedule('0 */1 * * *', () => {
   console.log('Running syncNews job...');
   syncNews();
+  console.log("Noticias sincronizadas")
+
 });
 
 // Cronjob que imprime un mensaje cada 10 minutos

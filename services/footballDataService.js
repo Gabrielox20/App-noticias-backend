@@ -16,7 +16,6 @@ const syncHistoricalData = async (leagueId, seasons) => {
       });
 
       const matches = response.data.matches;
-      console.log(matches)
 
       for (const match of matches) {
         const matchData = {

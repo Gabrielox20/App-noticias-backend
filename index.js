@@ -58,7 +58,7 @@ try {
   console.error('Error instalando dependencias de Python:', error.message);
 }
 
-
+console.log("Sincrinizacion")
 // Programar las tareas para que se ejecuten cada hora
 cron.schedule('0 */1 * * *', () => {
   console.log('Running syncLeagues job...');

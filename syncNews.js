@@ -1,5 +1,4 @@
 const axios = require('axios');
-const cron = require('node-cron');
 require('dotenv').config();
 
 const leagues = [
@@ -9,7 +8,6 @@ const leagues = [
   { code: 'BL1', name: 'Bundesliga' },
   { code: 'FL1', name: 'Ligue 1' },
   { code: 'BSA', name: 'Brasileirao' },
-
 ];
 
 const syncNews = async () => {
@@ -25,11 +23,4 @@ const syncNews = async () => {
   }
 };
 
-// Schedule the task to run every hour
-cron.schedule('0 */1 * * *', () => {
-    console.log('Running syncNews job...');
-  syncNews();
-});
-
-// Run the script immediately on startup
-syncNews();
+module.exports = syncNews;

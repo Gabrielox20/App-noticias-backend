@@ -1,5 +1,4 @@
 const axios = require('axios');
-const cron = require('node-cron');
 
 const BASE_URL = 'https://app-noticias-backend.onrender.com/sync/sync-historical';
 
@@ -16,7 +15,7 @@ const leagues = [
   //{ code: 'SA', id: '2010' },
   //{ code: 'PL', id: '2011' },
   //{ code: 'CLI', id: '2012' },
-  //{ code: 'BSA', id: '2004' },
+  { code: 'BSA', id: '2004' },
 ];
 
 const seasons = [2024];
@@ -37,11 +36,4 @@ const syncData = async () => {
   }
 };
 
-// Schedule the task to run every hour
-cron.schedule('0 */1 * * *', () => {
-  console.log('Running syncLeagues job...');
-  syncData();
-});
-
-// Run the script immediately on startup
-syncData();
+module.exports = syncData; // Exporta la función

@@ -9,6 +9,15 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+
+// Instalar dependencias de Python
+try {
+  execSync('pip install -r requirements.txt');
+  console.log('Dependencias de Python instaladas');
+} catch (error) {
+  console.error('Error instalando dependencias de Python:', error.message);
+}
+
 // Middleware
 app.use(express.json());
 app.use(cors({

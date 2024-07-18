@@ -12,7 +12,7 @@ const { exec } = require('child_process');
 // Ruta para realizar el web scraping y guardar los datos en la base de datos
 router.get('/scrape-and-save', (req, res) => {
   const league = req.query.league || 'LaLiga';
-  exec(`python3 scrape_news.py "${league}"`, async (error, stdout, stderr) => {
+  exec(`python scrape_news.py "${league}"`, async (error, stdout, stderr) => {
       if (error) {
           console.error(`Error executing Python script: ${stderr}`);
           res.status(500).json({ message: 'Error executing Python script', error: stderr });

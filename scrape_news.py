@@ -9,18 +9,23 @@ import logging
 # Configurar logging
 logging.basicConfig(filename='logfile.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s:%(message)s')
 
-
 def fetch_article_details(article_url):
     try:
         response = requests.get(article_url)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        title = soup.find('meta', property='og:title')['content'] if soup.find('meta', property='og:title') else 'No title'
-        description = soup.find('meta', property='og:description')['content'] if soup.find('meta', property='og:description') else 'No description'
-        published_at = soup.find('meta', property='article:published_time')['content'] if soup.find('meta', property='article:published_time') else datetime.utcnow().isoformat() + 'Z'
-        url_to_image = soup.find('meta', property='og:image')['content'] if soup.find('meta', property='og:image') else None
-        source = soup.find('meta', property='og:site_name')['content'] if soup.find('meta', property='og:site_name') else 'No source'
+        title = soup.find('meta', property='og:title')
+        description = soup.find('meta', property='og:description')
+        published_at = soup.find('meta', property='article:published_time')
+        url_to_image = soup.find('meta', property='og:image')
+        source = soup.find('meta', property='og:site_name')
+
+        title = title['content'] if title else 'No title'
+        description = description['content'] if description else 'No description'
+        published_at = published_at['content'] if published_at else datetime.utcnow().isoformat() + 'Z'
+        url_to_image = url_to_image['content'] if url_to_image else None
+        source = source['content'] if source else 'No source'
 
         # Normalizar published_at al formato ISO 8601 si no lo está
         if not published_at.endswith('Z'):
@@ -28,6 +33,8 @@ def fetch_article_details(article_url):
                 published_at = datetime.strptime(published_at, "%d/%m/%Y %H:%M:%S").isoformat() + 'Z'
             except ValueError:
                 published_at = datetime.utcnow().isoformat() + 'Z'
+
+        logging.debug(f"Fetched article details: {title}, {description}, {published_at}, {source}")
 
         return {
             'title': title,
@@ -39,33 +46,30 @@ def fetch_article_details(article_url):
         }
     except Exception as e:
         logging.error(f"Error fetching article details for URL {article_url}: {e}")
-        return None
-
-def resolve_google_news_url(google_news_url):
-    try:
-        response = requests.get(google_news_url)
-        response.raise_for_status()
-        return response.url
-    except Exception as e:
-        logging.error(f"Error resolving Google News URL {google_news_url}: {e}")
-        return google_news_url
+        return {
+            'title': 'Error',
+            'description': f"Failed to fetch details: {str(e)}",
+            'url': article_url,
+            'urlToImage': None,
+            'publishedAt': datetime.utcnow().isoformat() + 'Z',
+            'source': 'Error'
+        }
 
 def get_football_news(league):
     try:
-        url = f"https://news.google.com/search?q=%22{league}%22%20when%3A1h&hl=es-419&gl=CL&ceid=CL%3Aes-419"
+        url = f"https://www.bing.com/news/search?q={league}&qft=interval%3d%224%22&form=PTFTNR"
         response = requests.get(url)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
-        articles = soup.find_all('article')
+        articles = soup.find_all('a', {'class': 'title'})
         logging.debug(f"Scraping URL: {url}")
 
         article_urls = []
         for article in articles:
-            if len(article_urls) >= 20:
+            if len(article_urls) >= 10:
                 break
-            link = 'https://news.google.com' + article.find('a')['href'][1:] if article.find('a') else 'No link'
-            resolved_url = resolve_google_news_url(link)
-            article_urls.append(resolved_url)
+            link = article['href']
+            article_urls.append(link)
 
         news_data = []
         for url in article_urls:

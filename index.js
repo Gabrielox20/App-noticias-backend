@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: 'https://app-noticias-self.vercel.app' // Reemplaza con el dominio de tu frontend
+  origin: process.env.FRONT // Reemplaza con el dominio de tu frontend
 }));
 
 // Importar Rutas

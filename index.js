@@ -58,16 +58,21 @@ try {
   console.error('Error instalando dependencias de Python:', error.message);
 }
 
-console.log("Sincrinizacion")
+// Funciones de sincronización
+const syncLeagues = require('./syncLeagues');
+const syncNews = require('./syncNews');
+
+console.log("...")
+
 // Programar las tareas para que se ejecuten cada hora
 cron.schedule('0 */1 * * *', () => {
   console.log('Running syncLeagues job...');
-  require('./syncLeagues');
+  syncLeagues();
 });
 
 cron.schedule('0 */1 * * *', () => {
   console.log('Running syncNews job...');
-  require('./syncNews');
+  syncNews();
 });
 
 // Cronjob que imprime un mensaje cada 10 minutos
